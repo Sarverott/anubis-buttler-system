@@ -1,0 +1,3 @@
+[submodule "skriptonus"]
+	path = skriptonus
+	url = https://github.com/Sarverott/skriptonus.git
