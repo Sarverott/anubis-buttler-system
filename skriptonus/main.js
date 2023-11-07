@@ -1,57 +1,75 @@
-/*
-  SKRIPTONUS - application core system, for code poets, fans of darkness and very futuristic projects, initially target skeleton for Anubis project
-  Copyright (C) 2022 Sett Sarverott
-*/
-const vm=require("vm");
-const fs=require("fs");
-const path=require("path");
-const {EventEmitter, captureRejectionSymbol}=require('events');
-//const helpingSet=;
-//const ignitionSet=;
-//const FatumConsequencion=require("./fatum-consequencion.js");
+const Skriptonus=require('./skriptonus');
+const repl=require("repl");
+const fs = require('fs');
 
-//global.creationPhillars=new FatumConsequencion();
-
-
-
-class Skriptonus extends EventEmitter{
-  constructor(enchantmentObject, spellPath){
-    super();
-    this.config=enchantmentObject;
-    this.location=spellPath
-    if(enchantmentObject.hasOwnProperty("summon-name"))this.name=enchantmentObject["summon-name"];
-    else this.name=Skriptonus.executeBaptism;
+function getColor(zloc, color){
+  const loc={
+    front:3,foreground:3,
+    back:4,background:4
   }
-
-  static include(...extendingPaths){
-    extendingPaths.forEach(
-      (script)=>Object.assign(Skriptonus, require(script))
-    );
-  }
-  static genesisDependencies(){
-    Skriptonus.include(
-      './standard-equations-extension.js',
-      './edged-space-scafolding.js',
-      './small-cosmic-debugger.js',
-      './universe-initialisation-mechanics.js',
-      './realm-tree-branching.js'
-    );
-  }
-  static theBigBang(){
-    Skriptonus.debug("BEG");
-    //console.log("")
-    Skriptonus.defineSingularityPoint(path.dirname(__dirname));
-    Skriptonus.plantBearing(path.join(__dirname, "seed-of-realm.json"));
-    Skriptonus.castNature();
-
-    Skriptonus.buildSkeletonTree();
-    //console.log(this.ygdrasilion.rootSheme);
-    console.log(this.ygdrasilion.rootSheme);
-    console.log(this);
-    console.log(this.ygdrasilion.branchShematics);
-    Skriptonus.debug("END");
-  }
+  const col={
+    '#000':0,black:0,
+    '#f00':1,red:1,
+    '#0f0':2,green:2,
+    '#00f':4,blue:4,
+    '#ff0':3,yellow:3,
+    '#f0f':5,magenta:5,
+    '#0ff':6,cyan:6,
+    '#fff':7,white:7
+  };
+  return `\x1b[${loc[zloc]}${col[color]}m`;
+}
+function resetColor(){
+  return "\x1b[0m";
 }
 
-//Skriptonus.plantBearing("./seed-of-skriptonus.json")
-module.exports=Skriptonus;
+if(require.main===module){
+  //console.log(listElementalCapableElements("skriptonus.js", "seed-of-skriptonus.js", "fatum-consequencion.js"));
+  Skriptonus.plantBearing("./seed-of-skriptonus.json");
+  Skriptonus.enchantNature();
+  Skriptonus.theBigBang();
+  const promptConfig={
+    prompt:(
+      //getColor('back', 'red')+
+      getColor('front', 'red')+
+      '#~makers_enchantment_book~> '+
+      resetColor()
+    )
+  };
+  const prompt=new repl.REPLServer(promptConfig);
+  Object.assign(prompt.context, {
+    SKRIPTONUS:Skriptonus,
+    UNIVERSE:Skriptonus.universe,
+    SCRIBES:Skriptonus.nameChronicle,
+    PROMPT:promptConfig
+    //PEOPLE:Skriptonus.universe.
+  });
+  Object.defineProperty(prompt.context, "help", {
+    get(){
+      console.log();
+      console.log(
+        getColor("back", "red")+getColor("front", "white")+"Skriptonus"+resetColor()+'\r\n',
+        ...Object.keys(prompt.context).map((item)=>item+'\n')
+      );
+      return 'for more help use ".help" or check manuals'
+    }
+  });
+  Object.defineProperty(prompt.context, "bye", {
+    get(){
+      process.kill(process.pid);
+      return 'BYE'
+    }
+  });
+  //console.log(repl.setupHistory)
+  //prompt.context.help;
+  prompt.setupHistory("./logs/repl-history.txt", function(){})
+  /*
+  if(fs.existsSync('./logs/repl-history.json')){
+
+  }else{
+
+  }
+  */
+}else{
+  module.exports=Skriptonus;
+}
