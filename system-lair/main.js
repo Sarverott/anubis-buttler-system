@@ -15,12 +15,12 @@ const {EventEmitter, captureRejectionSymbol}=require('events');
 
 
 class Skriptonus extends EventEmitter{
-  constructor(){
+  constructor(enchantmentObject, spellPath){
     super();
-    this.genealogy={
-      children:[],
-      parrent:null
-    }
+    this.config=enchantmentObject;
+    this.location=spellPath
+    if(enchantmentObject.hasOwnProperty("summon-name"))this.name=enchantmentObject["summon-name"];
+    else this.name=Skriptonus.executeBaptism;
   }
 
   static include(...extendingPaths){
@@ -45,8 +45,10 @@ class Skriptonus extends EventEmitter{
     Skriptonus.castNature();
 
     Skriptonus.buildSkeletonTree();
-    console.log(this.ygdrasilion);
-
+    //console.log(this.ygdrasilion.rootSheme);
+    console.log(this.ygdrasilion.rootSheme);
+    console.log(this);
+    console.log(this.ygdrasilion.branchShematics);
     Skriptonus.debug("END");
   }
 }

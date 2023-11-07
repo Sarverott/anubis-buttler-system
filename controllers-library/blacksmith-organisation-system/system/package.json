@@ -1,0 +1,11 @@
+{
+  "name": "simple-project-creation",
+  "version": "1.0.0",
+  "description": "proof-of-work of one functionality from blacksmithOrganizationSystem project - INTERNAL DRAFT, DO NOT PUBLISH AS IS!!",
+  "main": "main.js",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "author": "Sett Sarverott",
+  "license": "OWN PROPERTY OF AUTHOR, not allowed for anyone to use, read, modify, publication, redistribution and possession by anyone besides Sett Sarverott"
+}

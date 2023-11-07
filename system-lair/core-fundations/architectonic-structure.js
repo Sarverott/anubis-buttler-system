@@ -15,8 +15,8 @@ module.exports=function(Skriptonus){
         !ArchitectonicStructure.hasOwnProperty("allExceptions")
       )ArchitectonicStructure.allExceptions=item;
     }
-    constructor(){
-      super();
+    constructor(...args){
+      super(...args);
       ArchitectonicStructure.ALL.push(this);
     }
     /*

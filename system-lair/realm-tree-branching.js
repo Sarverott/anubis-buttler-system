@@ -2,80 +2,46 @@ const fs=require("fs");
 const path = require('path');
 
 module.exports={
-
-  readSigil(signChars){
-
-  },
-  checkBranchSigilPattern(itemname){
-    return
-      (
-        itemname.substring(0,this.summonSpell.declaration.length+1)
-        ==
-        this.summonSpell.declaration+"."
-      )
+  readSpellingType(itemname, dirPath){
+    var jsonLoad=this.JSONs.load(path.join(dirPath, itemname));
+    var testLoad=[
+      path.extname(itemname)==".json",
+      itemname.split(".")[0]=="sigil",
+      itemname.substring(itemname.indexOf("."))==".spout.json",
+      itemname.length==5+4+4,
+      //(jsonLoad)?jsonLoad.hasOwnProperty("sigil"):false,
+      //(jsonLoad&&jsonLoad.hasOwnProperty("sigil"))?this.sigilsToSpellsList.hasOwnProperty(jsonLoad.sigil):false,
+    ]
+    if(
+      itemname.split(".")[0]=="sigil"
       &&
-      //(
-      //  path.extname(itemname)
-      //  ==
-      //  "."+this.summonSpell.extension
-      //)
-      //&&
-      (
-        itemname.length
-        -this.summonSpell.declaration.length
-        -4
-        -this.summonSpell.extension.length
-      )
+      path.extname(itemname)==".json"
       &&
-      (
-        this.sigilsToSpellsList.hasOwnProperty(
-          itemname.split(".")[1]
-        )
-      );
-  },
-  checkNodeSigilPattern(itemname, dirPath){
-    var testSigilLoad=this.JSONs.load(
-      path.join(dirPath, itemname)
-    );
-    return
-      (
-        itemname.split(".").length==3
-      )
+      itemname.length==5+4+4
       &&
-      //(
-      //  path.extname(itemname)
-      //  ==
-      //  "."+this.summonSpell.extension
-      //)
-      //&&
-      testSigilLoad
+      jsonLoad
+    )return "sigil-booked";
+    else if(
+      path.extname(itemname)==".json"
       &&
-      testSigilLoad.hasOwnProperty("sigil")
+      jsonLoad
       &&
-      this.sigilsToSpellsList.hasOwnProperty(
-        testSigilLoad.sigil
-      );
-  },
-  checkSpoutingSignPattern(itemname, dirPath){
-    var testSpoutLoad=this.JSONs.load(
-      path.join(dirPath, itemname)
-    );
-    return
-      (
-        itemname.split(".").length==3
-      )
+      jsonLoad.hasOwnProperty("sigil")
       &&
-      (
-        itemname.substring(itemname.indexOf("."))
-        ==
-        ".spout.json"
-      )
+      this.sigilsToSpellsList.hasOwnProperty(jsonLoad.sigil)
+    )return "sigil-paged";
+    else if(
+      itemname.substring(itemname.indexOf("."))==".spout.json"
       &&
-      testSigilLoad
+      itemname.split(".").length==3
       &&
-      testSigilLoad.hasOwnProperty("relocator")
+      jsonLoad
       &&
-      testSigilLoad.hasOwnProperty("destination")
+      jsonLoad.hasOwnProperty("relocator")
+      &&
+      jsonLoad.hasOwnProperty("destination")
+    )return "spouted-volume";
+    else return "nonspellable-file"
   },
   exploreRealmBranch(currentPath){
     this.debug("log", `exploring branch at "${currentPath}"...`);
@@ -87,34 +53,42 @@ module.exports={
     var spoutsSignsList=[];
     for(var item of branchContent){
       if(item.isFile()){
-        if(
-          this.JSONs.ext(item.name)
-          &&
-          this.JSONs.load(path.join(currentPath, item.name))
-        ){
-          if(this.checkBranchSigilPattern(item.name)){
+        //this.debug("log", `checking file ${item.name}...`);
+        //if(
+          //this.JSONs.ext(item.name)
+          //&&
+          //this.JSONs.load(path.join(currentPath, item.name))
+        //){
+          var spellType=this.readSpellingType(item.name, currentPath);
+          console.log([
+            item.name,
+            spellType
+          ]);
+          if(spellType=="sigil-booked"){
             this.debug("log", `sigil file (${item.name}) was found!`);
             currentBranch={
               spell:this.sigilsToSpellsList[item.name.split(".")[1]],
               enchantments:this.JSONs.load(path.join(currentPath, item.name))
             };
-          }else if(this.checkNodeSigilPattern(item.name, currentPath)){
+            currentBranch.instance=new this[currentBranch.spell](currentBranch.enchantments, currentPath);
+          }else if(spellType=="sigil-paged"){
             this.debug("log", `divine artifact defining file (${item.name}) was found!`);
             var tmpLoadJson=this.JSONs.load(path.join(currentPath, item.name));
             currentNodes.push({
               family:item.name.split(".")[0],
               localId:item.name.split(".")[1],
               enchantments:tmpLoadJson,
-              spell:this.sigilsToSpellsList[tmpLoadJson.sigil]
+              spell:this.sigilsToSpellsList[tmpLoadJson.sigil],
+              instance:new this[this.sigilsToSpellsList[tmpLoadJson.sigil]](tmpLoadJson, currentPath)
             });
-          }else if(this.checkSpoutingSignPattern(item.name, currentPath)){
+          }else if(spellType=="spouted-volume"){
             this.debug("log", `spouting bound file (${item.name}) was found!`);
             spoutsSignsList.push({
               spouted:item.name.split(".")[0],
               details:this.JSONs.load(path.join(currentPath, item.name))
             });
           }
-        }
+        //}
       }else if(item.isDirectory()){
         if(!this.ignoredInRealmTree.includes(item.name)){
           this.debug("log", `directory (${item.name}) added to check inheritance later...`);

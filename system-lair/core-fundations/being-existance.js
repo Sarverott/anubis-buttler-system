@@ -6,9 +6,8 @@ module.exports=function(Skriptonus){
   return class BeingExistance
   extends Skriptonus.FundamentalInformation
   {
-    constructor(){
-      super();
-      this.contextlocation=null;
+    constructor(...args){
+      super(...args);
       //this.name=Skriptonus.executeBaptism;
     }
     get value(){

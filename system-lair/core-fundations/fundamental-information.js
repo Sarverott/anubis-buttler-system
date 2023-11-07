@@ -6,9 +6,11 @@ module.exports=function(Skriptonus){
   return class FundamentalInformation
   extends Skriptonus
   {
-    constructor(){
-      super();
+    constructor(...args){
+
+      super(...args);
       //console.log(Skriptonus);
+
       //this.name=Skriptonus.executeBaptism;
       //this.fatum=null;
       //console.log(this.name)

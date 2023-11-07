@@ -14,8 +14,8 @@ module.exports=function(Skriptonus){
         !FatumContinuum.hasOwnProperty("allExceptions")
       )FatumContinuum.allExceptions=item;
     }
-    constructor(){
-      super();
+    constructor(...args){
+      super(...args);
       //this.name=Skriptonus.executeBaptism;
       FatumContinuum.ALL.push(this);
     }

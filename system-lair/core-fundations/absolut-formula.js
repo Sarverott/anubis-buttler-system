@@ -7,7 +7,7 @@ module.exports=function(Skriptonus){
   extends Skriptonus.DivineArtifact
   {
     constructor(...args){
-      super();
+      super(...args);
       //console.log(Skriptonus);
       this.ALL={
         people:Skriptonus.RegularPerson.ALL,

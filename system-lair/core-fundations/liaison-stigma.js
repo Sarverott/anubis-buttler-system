@@ -15,8 +15,8 @@ module.exports=function(Skriptonus){
         !LiaisonStigma.hasOwnProperty("allExceptions")
       )LiaisonStigma.allExceptions=item;
     }
-    constructor(){
-      super();
+    constructor(...args){
+      super(...args);
       //this.name=Skriptonus.executeBaptism;
       LiaisonStigma.ALL.push(this);
     }

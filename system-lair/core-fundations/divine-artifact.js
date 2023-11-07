@@ -5,11 +5,11 @@
 module.exports=function(Skriptonus){
   return class DivineArtifact
   extends Skriptonus.FundamentalInformation{
-    constructor(){
-      super();
+    constructor(...args){
+      super(...args);
       //this.name=Skriptonus.executeBaptism;
-      this.brights=new Skriptonus.LuminocityMatter();
-      this.darks=new Skriptonus.ObscurityMatter();
+      //this.brights=new Skriptonus.LuminocityMatter();
+      //this.darks=new Skriptonus.ObscurityMatter();
     }
     get value(){
       return this.data;

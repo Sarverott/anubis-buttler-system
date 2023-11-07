@@ -15,8 +15,8 @@ module.exports=function(Skriptonus){
         !RegularPerson.hasOwnProperty("allExceptions")
       )RegularPerson.allExceptions=item;
     }
-    constructor(){
-      super();
+    constructor(...args){
+      super(...args);
       RegularPerson.ALL.push(this);
     }
     /*

@@ -14,8 +14,8 @@ module.exports=function(Skriptonus){
         !DemonicEntity.hasOwnProperty("allExceptions")
       )DemonicEntity.allExceptions=item;
     }
-    constructor(){
-      super();
+    constructor(...args){
+      super(...args);
       DemonicEntity.ALL.push(this);
     }
     /*

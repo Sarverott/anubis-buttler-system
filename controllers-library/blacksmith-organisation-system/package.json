@@ -1,0 +1,37 @@
+{
+  "name": "blacksmith-organization-system",
+  "version": "0.1.0",
+  "description": "Blacksmith Organization System - manage projects folders and files in your multiple workplaces, on servers and in publication repositories",
+  "main": "main.js",
+  "scripts": {
+    "test": "node main.js --test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sarverott/blacksmith-organization-system.git"
+  },
+  "keywords": [
+    "bos",
+    "blacksmith",
+    "organization",
+    "system",
+    "manage",
+    "projects"
+  ],
+  "author": "Sett Sarverott <sett@sarverott.com> (http://sarverott.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sarverott/blacksmith-organization-system/issues"
+  },
+  "homepage": "https://github.com/Sarverott/blacksmith-organization-system#readme",
+  "dependencies": {
+    "fb": "^2.0.0",
+    "ftp": "^0.3.10",
+    "github-api": "^3.4.0",
+    "googleapis": "^92.0.0",
+    "instagram-node": "^0.5.8",
+    "nodegit": "^0.27.0",
+    "soundcloud": "^3.3.2",
+    "tumblr": "^0.4.1"
+  }
+}
