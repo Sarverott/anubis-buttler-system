@@ -1,0 +1,24 @@
+{
+  "excluded":{
+    "from-basecode":[
+      "skriptonus.js",
+      "standard-equations-extension.js",
+      "universe.js"
+    ],
+    "from-realm-branches":[
+      "system-lair",
+      "core-fundations",
+      "node_modules",
+      ".git"
+    ]
+  },
+  "draftopedia":"./core-fundations/",
+  "namebase":{
+    "vocabularity":"rei-zero-nuru-ichi-hito-tsu-banme-ni-futa-tsume-san-mit-shi-yon-yot-go-itsu-roku-mut-shichi-nana-hachi-yat-kyu-ku",
+    "basiccounting":9
+  },
+  "summon-spell":{
+    "declaration":"sigil",
+    "extension":"json"
+  }
+}
